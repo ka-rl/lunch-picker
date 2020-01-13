@@ -19,13 +19,14 @@ class Restaurants:
         else:
             return self.restaurants[random.randint(0, len(self.restaurants) - 1)]
 
-    def add(self, restaurant):
+    def add(self, restaurants):
         """ Adds restaurant to list """
-        if restaurant not in self.restaurants:
-            self.restaurants.append(restaurant)
-            self.update_file()
-        else:
-            print(f"{restaurant} was already added to see all restaurants use command show")
+        for restaurant in restaurants.split(","):
+            if restaurant not in self.restaurants:
+                self.restaurants.append(restaurant)
+            else:
+                print(f"{restaurant} was already added to see all restaurants use command show")
+        self.update_file()
 
     def remove(self, restaurant):
         """ Removes restaurant from list """
@@ -33,7 +34,7 @@ class Restaurants:
             self.restaurants.remove(restaurant)
             self.update_file()
         except ValueError:
-            print(f"There is no {restaurant} on a list to see all restaurants use command show")
+            print(f"There is no {restaurant} on a list, to see all restaurants use command show")
 
     def show(self):
         """ Shows all restaurants on list """
@@ -44,12 +45,3 @@ class Restaurants:
         with open("restaurants.txt", "w") as file:
             for res in self.restaurants:
                 file.writelines(res + "\n")
-
-    def copy_from_file(self, path):
-        """ Copy restaurants from one file to another """
-        try:
-            with open(path) as file:
-                for line in file:
-                    self.add(line.rstrip('\n'))
-        except FileNotFoundError:
-            print("No such a file")

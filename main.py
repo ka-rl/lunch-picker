@@ -17,13 +17,9 @@ def pick():
 
 @cli.command()
 @click.argument('restaurant')
-@click.option("--file", is_flag=True, help="Name of file with restaurants")
-def add(restaurant, file):
-    """ Adds restaurant to list """
-    if file:
-        manager.copy_from_file(restaurant)
-    else:
-        manager.add(restaurant)
+def add(restaurant):
+    """ Adds restaurant to list to add multiple restaurants use ',' between names """
+    manager.add(restaurant)
 
 
 @cli.command()
