@@ -1,6 +1,6 @@
 import click
 
-from Restaurants import Restaurants
+from Restaurants import Restaurants, RestaurantsArgumentError
 
 
 @click.group()
@@ -19,14 +19,20 @@ def pick():
 @click.argument('restaurant')
 def add(restaurant):
     """ Adds restaurant to list to add multiple restaurants use ',' between names """
-    manager.add(restaurant)
+    try:
+        manager.add(restaurant)
+    except RestaurantsArgumentError as error:
+        print(error)
 
 
 @cli.command()
 @click.argument('restaurant')
 def remove(restaurant):
     """ Removes restaurant from list """
-    manager.remove(restaurant)
+    try:
+        manager.remove(restaurant)
+    except RestaurantsArgumentError as error:
+        print(error)
 
 
 @cli.command()
