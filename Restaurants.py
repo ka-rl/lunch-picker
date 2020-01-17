@@ -7,13 +7,14 @@ class RestaurantsArgumentError(Exception):
 
 
 class Restaurants:
-    def __init__(self):
+    def __init__(self, path):
         """ Creates file with restaurants if file already exist copy all lines to list """
-        if os.path.exists("restaurants.txt"):
+        self.path = path
+        if os.path.exists(path):
             mode = "r"
         else:
             mode = "w+"
-        with open("restaurants.txt", mode) as file:
+        with open(path, mode) as file:
             self.restaurants = [line.rstrip('\n') for line in file]
 
     def pick(self):
@@ -48,6 +49,6 @@ class Restaurants:
 
     def update_file(self):
         """ Updates external file """
-        with open("restaurants.txt", "w") as file:
+        with open(self.path, "w") as file:
             for res in self.restaurants:
                 file.writelines(res + "\n")

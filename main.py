@@ -42,5 +42,5 @@ def show():
 
 
 if __name__ == "__main__":
-    manager = Restaurants()
+    manager = Restaurants("restaurants.txt")
     cli()
