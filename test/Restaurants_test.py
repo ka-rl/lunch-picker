@@ -4,34 +4,33 @@ from Restaurants import Restaurants, RestaurantsArgumentError
 
 
 class RestaurantTests(unittest.TestCase):
+    def setUp(self):
+        self.class_manager = Restaurants("test.txt")
+
+    def tearDown(self):
+        os.remove("test.txt")
 
     def test_pick(self):
-        x = Restaurants("test.txt")
-        assert x.pick() == "Restaurants list is empty use command add"
-        os.remove("test.txt")
+        self.assertEqual(self.class_manager.pick(), "Restaurants list is empty use command add")
 
     def test_add(self):
-        x = Restaurants("test.txt")
-        x.add("test")
-        assert "test" in x.restaurants
+        self.class_manager.add("test")
+        self.assertIn("test", self.class_manager.restaurants)
         try:
-            x.add("test")
+            self.class_manager.add("test")
             self.fail("Exception should be thrown")
         except RestaurantsArgumentError as e:
-            assert str(e) == "'test' was already added to see all restaurants use command show"
-        os.remove("test.txt")
+            self.assertEqual(str(e), "'test' was already added to see all restaurants use command show")
 
     def test_remove(self):
-        x = Restaurants("test.txt")
-        x.add("test")
-        x.remove("test")
-        assert "test" not in x.restaurants
+        self.class_manager.add("test")
+        self.class_manager.remove("test")
+        self.assertNotIn("test", self.class_manager.restaurants)
         try:
-            x.remove("test")
+            self.class_manager.remove("test")
             self.fail("Exception should be thrown")
         except RestaurantsArgumentError as e:
-            assert str(e) == "There is no 'test' on a list, to see all restaurants use command show"
-        os.remove("test.txt")
+            self.assertEqual(str(e), "There is no 'test' on a list, to see all restaurants use command show")
 
 
 if __name__ == '__main__':
