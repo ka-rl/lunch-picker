@@ -16,21 +16,13 @@ class RestaurantTests(unittest.TestCase):
     def test_add(self):
         self.class_manager.add("tests")
         self.assertIn("tests", self.class_manager.restaurants)
-        try:
-            self.class_manager.add("tests")
-            self.fail("Exception should be thrown")
-        except RestaurantsArgumentError as e:
-            self.assertEqual(str(e), "'tests' was already added to see all restaurants use command show")
+        self.assertRaises(RestaurantsArgumentError, self.class_manager.add, "tests")
 
     def test_remove(self):
         self.class_manager.add("tests")
         self.class_manager.remove("tests")
         self.assertNotIn("tests", self.class_manager.restaurants)
-        try:
-            self.class_manager.remove("tests")
-            self.fail("Exception should be thrown")
-        except RestaurantsArgumentError as e:
-            self.assertEqual(str(e), "There is no 'tests' on a list, to see all restaurants use command show")
+        self.assertRaises(RestaurantsArgumentError, self.class_manager.remove, "tests")
 
 
 if __name__ == '__main__':
